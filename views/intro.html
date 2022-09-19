@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Galaxy Conquest</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Multiplayer play to earn blockchain game" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%237d6ee7%22></rect><path d=%22M73.22 51.53L73.22 71.06Q73.22 72.68 72.28 73.76Q71.33 74.84 69.44 75.83L69.44 75.83Q67.19 76.91 63.23 77.72Q59.27 78.53 55.22 78.53L55.22 78.53Q48.92 78.53 43.70 76.82Q38.48 75.11 34.70 71.60Q30.92 68.09 28.85 62.73Q26.78 57.38 26.78 50.09L26.78 50.09Q26.78 42.89 28.94 37.49Q31.10 32.09 34.84 28.54Q38.57 24.98 43.52 23.23Q48.47 21.47 54.05 21.47L54.05 21.47Q57.83 21.47 61.02 22.10Q64.22 22.73 66.47 23.77Q68.72 24.80 69.98 26.06Q71.24 27.32 71.24 28.58L71.24 28.58Q71.24 29.84 70.52 30.74Q69.80 31.64 68.81 32.09L68.81 32.09Q66.38 30.47 63.05 29.08Q59.72 27.68 54.50 27.68L54.50 27.68Q50.18 27.68 46.49 29.12Q42.80 30.56 40.10 33.35Q37.40 36.14 35.87 40.37Q34.34 44.60 34.34 50.09L34.34 50.09Q34.34 55.94 35.91 60.13Q37.49 64.31 40.33 67.01Q43.16 69.71 46.98 71.02Q50.81 72.32 55.31 72.32L55.31 72.32Q58.55 72.32 61.43 71.78Q64.31 71.24 65.93 70.43L65.93 70.43L65.93 53.87L52.34 53.87Q52.07 53.42 51.80 52.66Q51.53 51.89 51.53 50.99L51.53 50.99Q51.53 49.46 52.25 48.61Q52.97 47.75 54.32 47.75L54.32 47.75L69.35 47.75Q70.97 47.75 72.09 48.78Q73.22 49.82 73.22 51.53L73.22 51.53Z%22 fill=%22%23fff%22></path></svg>" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="https://unpkg.com/moralis-v1/dist/moralis.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://github.com/WalletConnect/walletconnect-monorepo/releases/download/1.7.1/web3-provider.min.js"></script>
+  </head>
+
+  <body class="intro-body">
+    <img src="galaxyconquesthero.png" alt="Galaxy Conquest" class="intro-img" />
+    <p class="game-text game-instructions">
+      Welcome to Galaxy Conquest, a realtime multiplayer game where a 
+      maximum of six people can play at the same time. It is also an OPTIONAL play
+      to earn game sitting on currently on the Cronos Testnet blockchain. You can simply
+      join or create a new game. Currently there is no lobby so you have to do the 
+      co-ordination manually by sharing the room code with your fellow players!
+    </p>
+        <!--start-->
+        <div class="room-input">
+          <div class="card text-center start-info-card">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-flex" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link"
+                    id="launch-tab"
+                    data-toggle="tab"
+                    href="#launch"
+                    role="tab"
+                    aria-controls="launch"
+                    aria-selected="false"
+                    >Start new invasion</a
+                  >
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a
+                    class="nav-link active"
+                    id="join-tab"
+                    data-toggle="tab"
+                    href="#join"
+                    role="tab"
+                    aria-controls="join"
+                    aria-selected="true"
+                    >Join an invasion</a
+                  >
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div
+                  class="tab-pane fade"
+                  id="launch"
+                  role="tabpanel"
+                  aria-labelledby="launch-tab"
+                >
+                  <div id="create-tab" class="card-body">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control input-box"
+                        id="create-nickname"
+                        placeholder="Enter a nickname"
+                      />
+                    </div>
+                    <button
+                      id="btn-join"
+                      class="btn btn-primary"
+                      onclick="hostNewGame()"
+                    >
+                      GO
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade show active"
+                  id="join"
+                  role="tabpanel"
+                  aria-labelledby="join-tab"
+                >
+                  <div class="card-body">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control input-box"
+                        id="join-nickname"
+                        placeholder="Enter a nickname"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-control input-box"
+                        id="join-room-code"
+                        placeholder="Enter room code"
+                      />
+                    </div>
+                    <button
+                      id="btn-create"
+                      class="btn btn-primary"
+                      onclick="joinRoom()"
+                    >
+                      JOIN
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="wallet-address" id="wallet-address"></p>
+              <p class="wager-message" id="wager-message"></p>
+            </div>
+          </div>
+        </div>
+        <!--stop-->
+    <p>
+      <button id="btn-login">Connect via Metamask</button>
+      <button id="btn-login-walletconnect">Connect via WalletConnect</button>
+      <button id="btn-logout">Logout</button><br />
+    </p>
+    <p>
+      <button id="btn-wager">Wager 2.5 CRO</button>
+    </p>
+    <p class="game-text game-instructions">
+      Wager: While optional, you can reap the benefit more by connecting with your wallet.
+      Wager is currently set at 2.5 CRO and if you win, you will get back a total of
+      4 CRO. If you lose, you will lose 2.5 CRO. It will go into the treasury pool
+      where on ocassion a double rewards or a jackpot will be given out to players!
+    </p>
+    <p class="game-text game-instructions">
+      Remember to connect your wallet first (sometimes you have to logout and login again)
+      and hit the wager button. A message will prompt you when all is good and you can proceed!
+    </p>
+
+
+    <p id="treasury-balance" class="game-text game-instructions">
+    </p>
+   
+
+    <p class="game-text game-instructions">
+      Playing: Use the arrow keys on your keyboard to move your white craft 
+      left or right to escape the bullets from the spaceship. Your goal is to
+      make it to the other side, alive!
+    </p>
+    <img
+      class="img-fluid img-invaders"
+      src="https://cdn.glitch.com/f66772e3-bbf6-4f6d-b5d5-94559e3c1c6f%2Fallinvaders.png?v=1589884216800"
+      alt="Invader avatars"
+    />
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./intro.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+  </body>
+</html>
